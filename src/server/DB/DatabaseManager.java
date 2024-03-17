@@ -1,4 +1,5 @@
-package DB;
+package server.DB;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -11,7 +12,7 @@ public class DatabaseManager {
     private static final int port = 3306;
     private static Connection connection;
 
-    //*Method to make database connection
+    // *Method to make database connection
     public static void connect() {
         try {
             String url = "jdbc:mysql://" + host + ":" + port + "/" + dbName;
@@ -22,12 +23,12 @@ public class DatabaseManager {
         }
     }
 
-    //*Get the database connection
+    // *Get the database connection
     public static Connection getConnection() {
         return connection;
     }
 
-    //*Close the database connection
+    // *Close the database connection
     public static void closeConnection() {
         try {
             if (connection != null) {
