@@ -3,13 +3,14 @@ package server.BSL;
 import java.sql.*;
 
 import server.DB.DatabaseManager;
-import server.Models.Response;
+import server.Models.GlobalResponse;
+import server.Models.SignInResponse;
 import server.Utils.Hashing;
 
 public class AuthBSl {
     private Connection connection;
 
-    public Response signup(String name, String username, String password) {
+    public GlobalResponse signup(String name, String username, String password) {
         try {
             connection = DatabaseManager.getConnection();
             password = Hashing.doHashing(password);
@@ -18,41 +19,55 @@ public class AuthBSl {
 
             Statement statement = connection.createStatement();
             int rowsInserted = statement.executeUpdate(query);
-            Response response;
+            GlobalResponse response;
             if (rowsInserted > 0) {
-                response = new Response(200, "User registered successfully.");
+                response = new GlobalResponse(200, "User registered successfully.");
             } else {
-                response = new Response(404, "Failed to register user.");
+                response = new GlobalResponse(404, "Failed to register user.");
             }
-            DatabaseManager.closeConnection();
             return response;
         } catch (Exception e) {
-            return new Response(404, e.toString());
+            return new GlobalResponse(404, e.toString());
         }
     }
 
-    public Response login(String username, String password) {
+    public GlobalResponse login(String username, String password) {
         try {
             connection = DatabaseManager.getConnection();
-            String query = "SELECT password FROM User WHERE username = '" + username + "'";
+            String query = "SELECT password , role  FROM User WHERE username = '" + username + "'";
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(query);
-            Response response;
+            GlobalResponse response;
             if (resultSet.next()) {
                 String hashPassword = resultSet.getString("password");
+                String role = resultSet.getString("role");
                 if (!Hashing.comparePassword(password, hashPassword)) {
-                    response = new Response(401, "Unauthorized");
+                    response = new GlobalResponse(401, "Unauthorized");
                 } else {
-                    response = new Response(200, "Welcome Back");
+                    response = new SignInResponse(200, "Welcome Back", role);
                 }
             } else {
-                response = new Response(404, "User Not Found");
+                response = new GlobalResponse(404, "User Not Found");
             }
 
             return response;
         } catch (Exception e) {
-            return new Response(500, e.toString());
+            return new GlobalResponse(500, e.toString());
         }
     }
+
+    // public static void main(String[] args) {
+    //     DatabaseManager.connect();
+    //     AuthBSl authBSl = new AuthBSl();
+    //     // authBSl.signup("anas", "anas1001", "anos2002");
+    //     GlobalResponse res = authBSl.login("anas1001", "anos2002");
+    //     // Check if the response is an instance of SignInResponse
+    //     if (res instanceof SignInResponse) {
+    //         SignInResponse signInResponse = (SignInResponse) res;
+    //         System.out.println(res.getStatus() + " " + res.getMessage() + " " + signInResponse.getRole());
+    //     } else {
+    //         System.out.println(res.getStatus() + " " + res.getMessage());
+    //     }
+    // }
 
 }
