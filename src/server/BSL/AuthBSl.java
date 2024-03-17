@@ -48,7 +48,7 @@ public class AuthBSl {
             } else {
                 response = new Response(404, "User Not Found");
             }
-    
+
             return response;
         } catch (Exception e) {
             return new Response(500, e.toString());
