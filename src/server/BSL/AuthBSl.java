@@ -25,6 +25,7 @@ public class AuthBSl {
             } else {
                 response = new GlobalResponse(404, "Failed to register user.");
             }
+            statement.close();
             return response;
         } catch (Exception e) {
             return new GlobalResponse(404, e.toString());
@@ -49,25 +50,27 @@ public class AuthBSl {
             } else {
                 response = new GlobalResponse(404, "User Not Found");
             }
-
+            resultSet.close();
+            statement.close();
             return response;
         } catch (Exception e) {
             return new GlobalResponse(500, e.toString());
         }
     }
 
-    public static void main(String[] args) {
-        DatabaseManager.connect();
-        AuthBSl authBSl = new AuthBSl();
-        // authBSl.signup("anas", "anas1001", "anos2002");
-        GlobalResponse res = authBSl.login("anas1001", "anos2002");
-        // Check if the response is an instance of SignInResponse
-        if (res instanceof SignInResponse) {
-            SignInResponse signInResponse = (SignInResponse) res;
-            System.out.println(res.getStatus() + " " + res.getMessage() + " " + signInResponse.getRole());
-        } else {
-            System.out.println(res.getStatus() + " " + res.getMessage());
-        }
-    }
+    // public static void main(String[] args) {
+    // DatabaseManager.connect();
+    // AuthBSl authBSl = new AuthBSl();
+    // // authBSl.signup("anas", "anas1001", "anos2002");
+    // GlobalResponse res = authBSl.login("anas1001", "anos2002");
+    // // Check if the response is an instance of SignInResponse
+    // if (res instanceof SignInResponse) {
+    // SignInResponse signInResponse = (SignInResponse) res;
+    // System.out.println(res.getStatus() + " " + res.getMessage() + " " +
+    // signInResponse.getRole());
+    // } else {
+    // System.out.println(res.getStatus() + " " + res.getMessage());
+    // }
+    // }
 
 }
