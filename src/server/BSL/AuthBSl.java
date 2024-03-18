@@ -2,9 +2,9 @@ package server.BSL;
 
 import java.sql.*;
 
+import Models.GlobalResponse;
+import Models.SignInResponse;
 import server.DB.DatabaseManager;
-import server.Models.GlobalResponse;
-import server.Models.SignInResponse;
 import server.Utils.Hashing;
 
 public class AuthBSl {
@@ -56,18 +56,18 @@ public class AuthBSl {
         }
     }
 
-    // public static void main(String[] args) {
-    //     DatabaseManager.connect();
-    //     AuthBSl authBSl = new AuthBSl();
-    //     // authBSl.signup("anas", "anas1001", "anos2002");
-    //     GlobalResponse res = authBSl.login("anas1001", "anos2002");
-    //     // Check if the response is an instance of SignInResponse
-    //     if (res instanceof SignInResponse) {
-    //         SignInResponse signInResponse = (SignInResponse) res;
-    //         System.out.println(res.getStatus() + " " + res.getMessage() + " " + signInResponse.getRole());
-    //     } else {
-    //         System.out.println(res.getStatus() + " " + res.getMessage());
-    //     }
-    // }
+    public static void main(String[] args) {
+        DatabaseManager.connect();
+        AuthBSl authBSl = new AuthBSl();
+        // authBSl.signup("anas", "anas1001", "anos2002");
+        GlobalResponse res = authBSl.login("anas1001", "anos2002");
+        // Check if the response is an instance of SignInResponse
+        if (res instanceof SignInResponse) {
+            SignInResponse signInResponse = (SignInResponse) res;
+            System.out.println(res.getStatus() + " " + res.getMessage() + " " + signInResponse.getRole());
+        } else {
+            System.out.println(res.getStatus() + " " + res.getMessage());
+        }
+    }
 
 }
