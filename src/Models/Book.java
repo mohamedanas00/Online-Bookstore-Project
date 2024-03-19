@@ -1,5 +1,8 @@
 package Models;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 public class Book {
     private int Id;
     private String title;
@@ -16,6 +19,17 @@ public class Book {
         this.price = price;
         this.quantity = quantity;
         this.ratingAvg = 0.00;
+    }
+
+    public Book(ResultSet resultSet) throws SQLException {
+        Id = resultSet.getInt("id");
+        title = resultSet.getString("title");
+        author = resultSet.getString("author");
+        genre = resultSet.getString("genre");
+        price = resultSet.getDouble("price");
+        ratingAvg = resultSet.getDouble("ratingAvg");
+        quantity = resultSet.getInt("quantity");
+    
     }
 
     public int getId() {

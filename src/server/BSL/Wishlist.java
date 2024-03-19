@@ -78,26 +78,11 @@ public class Wishlist {
             preparedStatement.setInt(1, userId);
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            if (resultSet.next()) {
-                do {
-                    // *Retrieve the columns from the Book table
-                    int bookId = resultSet.getInt("id");
-                    String title = resultSet.getString("title");
-                    String author = resultSet.getString("author");
-                    String genre = resultSet.getString("genre");
-                    double price = resultSet.getDouble("price");
-                    double ratingAvg = resultSet.getDouble("ratingAvg");
-                    int quantity = resultSet.getInt("quantity");
-                    // *Create a Book object and add it to the list
-                    Book book = new Book(title, author, genre, price, quantity);
-                    book.setId(bookId);
-                    book.setRatingAvg(ratingAvg);
-                    books.add(book);
-                } while (resultSet.next());
-                response = new BookResponse(200, "Success", books);
-            } else {
-                response = new GlobalResponse(404, "Wishlist is Empty.");
+            while (resultSet.next()) {
+                Book book = new Book(resultSet);
+                books.add(book);
             }
+            response = new BookResponse(200, "Success", books);
 
             resultSet.close();
             statement.close();
@@ -107,12 +92,12 @@ public class Wishlist {
         }
     }
 
-    // public static void main(String[] args) {
-    // DatabaseManager.connect();
-    // Wishlist wishlist = new Wishlist();
-    // GlobalResponse response=wishlist.addToWishlist(9, 4);
-    // GlobalResponse response2 = wishlist.deleteFromWishlist(9, 2);
-    // GlobalResponse response3=wishlist.getMyWishlist(9);
-    // System.out.println(response2);
-    // }
+    public static void main(String[] args) {
+        DatabaseManager.connect();
+        Wishlist wishlist = new Wishlist();
+        // GlobalResponse response=wishlist.addToWishlist(9, 4);
+        // GlobalResponse response2 = wishlist.deleteFromWishlist(9, 2);
+        GlobalResponse response3 = wishlist.getMyWishlist(9);
+        System.out.println(response3);
+    }
 }
