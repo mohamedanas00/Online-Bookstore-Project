@@ -2,6 +2,8 @@ package Models;
 
 import java.util.List;
 
+import server.Middleware.Authorization;
+
 public class BookResponse extends GlobalResponse {
 
     private List<Book> books;
@@ -21,23 +23,12 @@ public class BookResponse extends GlobalResponse {
         responseString.append("BookResponse{\n");
         responseString.append("status='").append(getStatus()).append("',\n");
         responseString.append("message='").append(getMessage()).append("',\n");
-        responseString.append("books=[\n");
         for (Book book : books) {
-            responseString.append(bookDetailsToString(book)).append(",\n");
+            responseString.append(Book.bookDetailsToString(book)).append(",\n");
         }
         responseString.append("]\n");
         responseString.append("}");
         return responseString.toString();
     }
 
-    private String bookDetailsToString(Book book) {
-        return "Book{id=" + book.getId() +
-                ", title='" + book.getTitle() + '\'' +
-                ", author='" + book.getAuthor() + '\'' +
-                ", genre='" + book.getGenre() + '\'' +
-                ", price=" + book.getPrice() +
-                ", ratingAvg=" + book.getRatingAvg() +
-                ", quantity=" + book.getQuantity() +
-                "}";
-    }
 }

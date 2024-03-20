@@ -1,9 +1,11 @@
 package Models;
 
+import java.io.Serializable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class Book {
+public class Book implements Serializable {
+
     private int Id;
     private String title;
     private String author;
@@ -11,15 +13,19 @@ public class Book {
     private double price;
     private double ratingAvg;
     private int quantity;
+    private int userId;
+    private User user;
 
-    public Book(String title, String author, String genre, double price, int quantity) {
+    public Book( String title, String author, String genre, double price, int quantity) {
         this.title = title;
         this.author = author;
         this.genre = genre;
         this.price = price;
-        this.quantity = quantity;
         this.ratingAvg = 0.00;
+        this.quantity = quantity;
     }
+
+
 
     public Book(ResultSet resultSet) throws SQLException {
         Id = resultSet.getInt("id");
@@ -29,7 +35,11 @@ public class Book {
         price = resultSet.getDouble("price");
         ratingAvg = resultSet.getDouble("ratingAvg");
         quantity = resultSet.getInt("quantity");
+        userId = resultSet.getInt("user_id");
+    }
     
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public int getId() {
@@ -60,20 +70,27 @@ public class Book {
         return quantity;
     }
 
-    public void setId(int id) {
-        Id = id;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public User getUser(){
+        return user;
+    }
+    
+    public static String bookDetailsToString(Book book) {
+        return "Book{id=" + book.getId() +
+                ", title='" + book.getTitle() + '\'' +
+                ", author='" + book.getAuthor() + '\'' +
+                ", genre='" + book.getGenre() + '\'' +
+                ", price=" + book.getPrice() + '\'' +
+                ", ratingAvg=" + book.getRatingAvg() +'\'' +
+                ", quantity=" + book.getQuantity() +'\'' +
+                "," + book.getUser() +
+                "}";
     }
 
-    public void setRatingAvg(double ratingAvg) {
-        this.ratingAvg = ratingAvg;
-    }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
+
 
 }
