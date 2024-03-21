@@ -3,7 +3,8 @@ package server.BSL;
 import java.sql.*;
 
 import Models.GlobalResponse;
-import Models.SignInResponse;
+import Models.LogInResponse;
+import Models.User;
 import server.DB.DatabaseManager;
 import server.Utils.Hashing;
 
@@ -35,17 +36,17 @@ public class AuthBSl {
     public GlobalResponse login(String username, String password) {
         try {
             connection = DatabaseManager.getConnection();
-            String query = "SELECT password , role  FROM User WHERE username = '" + username + "'";
+            String query = "SELECT *  FROM User WHERE username = '" + username + "'";
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(query);
             GlobalResponse response;
             if (resultSet.next()) {
                 String hashPassword = resultSet.getString("password");
-                String role = resultSet.getString("role");
                 if (!Hashing.comparePassword(password, hashPassword)) {
                     response = new GlobalResponse(401, "Unauthorized");
                 } else {
-                    response = new SignInResponse(200, "Welcome Back", role);
+                    User user =new User(resultSet);
+                    response = new LogInResponse(200, "Welcome Back", user);
                 }
             } else {
                 response = new GlobalResponse(404, "User Not Found");
@@ -61,7 +62,7 @@ public class AuthBSl {
     public static void main(String[] args) {
         DatabaseManager.connect();
         AuthBSl authBSl = new AuthBSl();
-        authBSl.signup("amr", "amr123", "amr123");
+        // authBSl.signup("amr", "amr123", "amr123");
         GlobalResponse res = authBSl.login("amr123", "amr123");
         // Check if the response is an instance of SignInResponse
         System.out.println(res);
