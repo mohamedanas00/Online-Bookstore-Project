@@ -2,8 +2,6 @@ package Models;
 
 import java.util.List;
 
-import server.Middleware.Authorization;
-
 public class BookResponse extends GlobalResponse {
 
     private List<Book> books;
