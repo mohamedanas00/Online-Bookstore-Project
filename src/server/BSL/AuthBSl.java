@@ -58,19 +58,13 @@ public class AuthBSl {
         }
     }
 
-    // public static void main(String[] args) {
-    // DatabaseManager.connect();
-    // AuthBSl authBSl = new AuthBSl();
-    // // authBSl.signup("anas", "anas1001", "anos2002");
-    // GlobalResponse res = authBSl.login("anas1001", "anos2002");
-    // // Check if the response is an instance of SignInResponse
-    // if (res instanceof SignInResponse) {
-    // SignInResponse signInResponse = (SignInResponse) res;
-    // System.out.println(res.getStatus() + " " + res.getMessage() + " " +
-    // signInResponse.getRole());
-    // } else {
-    // System.out.println(res.getStatus() + " " + res.getMessage());
-    // }
-    // }
+    public static void main(String[] args) {
+        DatabaseManager.connect();
+        AuthBSl authBSl = new AuthBSl();
+        authBSl.signup("amr", "amr123", "amr123");
+        GlobalResponse res = authBSl.login("amr123", "amr123");
+        // Check if the response is an instance of SignInResponse
+        System.out.println(res);
+    }
 
 }

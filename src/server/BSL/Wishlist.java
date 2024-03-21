@@ -8,7 +8,7 @@ import Models.Book;
 import Models.BookResponse;
 import Models.GlobalResponse;
 import server.DB.DatabaseManager;
-import server.Utils.Authorization;
+import server.Middleware.Authorization;
 
 public class Wishlist {
     private Connection connection;
