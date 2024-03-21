@@ -74,7 +74,7 @@ public class BookBSl {
         }
     }
 
-    public Book getBookById(int id) throws SQLException{
+    public Book getBookById(int id) throws SQLException {
         connection = DatabaseManager.getConnection();
         statement = connection.createStatement();
 
@@ -89,18 +89,40 @@ public class BookBSl {
         return book;
     }
 
-    public boolean updateBookQuantity(int id) throws SQLException{
+    public boolean updateBookQuantity(int id) throws SQLException {
         connection = DatabaseManager.getConnection();
         statement = connection.createStatement();
-        String query = "UPDATE Book SET quantity = quantity - 1 WHERE id ="+id;
+        String query = "UPDATE Book SET quantity = quantity - 1 WHERE id =" + id;
         int rowsInserted = statement.executeUpdate(query);
-        if(rowsInserted<0){
+        if (rowsInserted < 0) {
             return false;
         }
         return true;
     }
 
-    
+    public boolean calculateBookRating(int id) throws SQLException {
+        connection = DatabaseManager.getConnection();
+        statement = connection.createStatement();
+        String query = "SELECT book_id, AVG(rating) AS avg_rating FROM Review GROUP BY book_id";
+        ResultSet resultSet = statement.executeQuery(query);
+        while (resultSet.next()) {
+            int bookId = resultSet.getInt("book_id");
+            double avgRating = resultSet.getDouble("avg_rating");
+            System.out.println(avgRating);
+            updateRatingAvg(connection, bookId, avgRating);
+        }
+        return false;
+    }
+
+    private static void updateRatingAvg(Connection connection, int bookId, double avgRating) throws SQLException {
+        String updateQuery = "UPDATE Book SET ratingAvg = ? WHERE id = ?";
+        try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
+            updateStatement.setDouble(1, avgRating);
+            updateStatement.setInt(2, bookId);
+            updateStatement.executeUpdate();
+        }
+    }
+
     public static void main(String[] args) {
         DatabaseManager.connect();
         // Book book = new Book("Future", "Mark", "Drama", 99.4, 10);
