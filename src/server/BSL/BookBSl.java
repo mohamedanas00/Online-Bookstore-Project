@@ -103,7 +103,7 @@ public class BookBSl {
     
     public static void main(String[] args) {
         DatabaseManager.connect();
-        Book book = new Book("Future", "Mark", "Drama", 99.4, 10);
+        // Book book = new Book("Future", "Mark", "Drama", 99.4, 10);
         BookBSl bookBSl = new BookBSl();
         GlobalResponse res = bookBSl.searchBooks(2, "Drama");
         // GlobalResponse res = bookBSl.addBook(2, book);
