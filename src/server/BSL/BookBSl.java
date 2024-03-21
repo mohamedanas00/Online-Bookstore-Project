@@ -7,8 +7,9 @@ import java.util.List;
 import Models.Book;
 import Models.BookResponse;
 import Models.GlobalResponse;
+import Models.User;
 import server.DB.DatabaseManager;
-import server.Utils.Authorization;
+import server.Middleware.Authorization;
 
 public class BookBSl {
     private Connection connection;
@@ -18,12 +19,12 @@ public class BookBSl {
         try {
             connection = DatabaseManager.getConnection();
             GlobalResponse response;
-            if (!Authorization.checkAuthorization(userId, "admin", connection)) {
+            if (!Authorization.checkAuthorization(userId, "user", connection)) {
                 return new GlobalResponse(401, "Unauthorized");
             }
-            String query = "INSERT INTO Book (title, author, genre, price, quantity) VALUES ('" +
+            String query = "INSERT INTO Book (title, author, genre, price, quantity,user_id) VALUES ('" +
                     book.getTitle() + "', '" + book.getAuthor() + "', '" + book.getGenre() + "', '"
-                    + book.getPrice() + "', '" + book.getQuantity() + "')";
+                    + book.getPrice() + "', '" + book.getQuantity() + "', '" + userId + "')";
 
             statement = connection.createStatement();
             int rowsInserted = statement.executeUpdate(query);
@@ -39,7 +40,7 @@ public class BookBSl {
         }
     }
 
-    public GlobalResponse searchBooks(int userId,String searchQuery) {
+    public GlobalResponse searchBooks(int userId, String searchQuery) {
         List<Book> books = new ArrayList<>();
         try {
             connection = DatabaseManager.getConnection();
@@ -47,18 +48,21 @@ public class BookBSl {
             if (!Authorization.checkAuthorization(userId, "user", connection)) {
                 return new GlobalResponse(401, "Unauthorized");
             }
+
+            UserBSL userBsl = new UserBSL();
+            User user = userBsl.getUserDetails(userId);
             String query = "SELECT * " +
-            "FROM Book " +
-            "WHERE " +
-            "    title LIKE '%" + searchQuery + "%' " +
-            "    OR author LIKE '%" + searchQuery + "%' " +
-            "    OR genre LIKE '%" + searchQuery + "%' " ;
-           
+                    "FROM Book " +
+                    "WHERE " +
+                    "    title LIKE '%" + searchQuery + "%' " +
+                    "    OR author LIKE '%" + searchQuery + "%' " +
+                    "    OR genre LIKE '%" + searchQuery + "%' ";
 
             statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(query);
             while (resultSet.next()) {
                 Book book = new Book(resultSet);
+                book.setUser(user);
                 books.add(book);
             }
             response = new BookResponse(200, "Success", books);
@@ -69,13 +73,41 @@ public class BookBSl {
             return new GlobalResponse(500, e.toString());
         }
     }
+
+    public Book getBookById(int id) throws SQLException{
+        connection = DatabaseManager.getConnection();
+        statement = connection.createStatement();
+
+        String query1 = "SELECT * FROM Book WHERE id = " + id;
+        ResultSet resultSet = statement.executeQuery(query1);
+        if (!resultSet.next()) {
+            return null;
+        }
+        Book book = new Book(resultSet);
+        resultSet.close();
+        statement.close();
+        return book;
+    }
+
+    public boolean updateBookQuantity(int id) throws SQLException{
+        connection = DatabaseManager.getConnection();
+        statement = connection.createStatement();
+        String query = "UPDATE Book SET quantity = quantity - 1 WHERE id ="+id;
+        int rowsInserted = statement.executeUpdate(query);
+        if(rowsInserted<0){
+            return false;
+        }
+        return true;
+    }
+
+    
     public static void main(String[] args) {
-    DatabaseManager.connect();
-    // Book book =new Book("Future", "Mark", "Drama", 99.4, 10);
-    BookBSl bookBSl =new BookBSl();
-    GlobalResponse RES =bookBSl.searchBooks(9, "future");
-    // GlobalResponse res =bookBSl.addBook(10, book);
-    System.out.println(RES);
+        DatabaseManager.connect();
+        Book book = new Book("Future", "Mark", "Drama", 99.4, 10);
+        BookBSl bookBSl = new BookBSl();
+        GlobalResponse res = bookBSl.searchBooks(2, "Drama");
+        // GlobalResponse res = bookBSl.addBook(2, book);
+        System.out.println(res);
     }
 
 }
