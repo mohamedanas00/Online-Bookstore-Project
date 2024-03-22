@@ -9,6 +9,8 @@ public class Request implements Serializable{
    private int borrowerId;
    private int lenderId;
    private int bookId;
+   private String lenderUsername;
+   private String borrowerUsername;
    private String status;
 
 
@@ -18,14 +20,26 @@ public class Request implements Serializable{
         lenderId=resultSet.getInt("lender_id");
         bookId=resultSet.getInt("book_id");
         status=resultSet.getString("status");
+        lenderUsername = resultSet.getString("lender_username");
+        borrowerUsername = resultSet.getString("borrower_username");
     }
 
 
     @Override
     public String toString() {
         return "Request [id=" + id + ", borrowerId=" + borrowerId + ", lenderId=" + lenderId + ", bookId=" + bookId
-                + ", status=" + status + "]";
+                + ", lenderUsername=" + lenderUsername + ", borrowerUsername=" + borrowerUsername + ", status=" + status
+                + "]";
     }
+
+
+    
+
+
+    
+
+
+
 
     
 }

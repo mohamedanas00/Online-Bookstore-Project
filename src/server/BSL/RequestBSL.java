@@ -102,21 +102,32 @@ public class RequestBSL {
     public GlobalResponse showRequestHistory(int userId) {
         List<Request> requests = new ArrayList<>();
         GlobalResponse response;
+        ResultSet resultSet;
+
         try {
             connection = DatabaseManager.getConnection();
             statement = connection.createStatement();
 
-            String query = "SELECT * FROM Request WHERE lender_id =" + userId;
-            ResultSet resultSet = statement.executeQuery(query);
-            if (!resultSet.next()) {
-                return new GlobalResponse(200, "Request is Empty");
+            String query = "SELECT R.*, L.username AS lender_username, B.username AS borrower_username " +
+                    "FROM Request R " +
+                    "JOIN User L ON R.lender_id = L.id " +
+                    "JOIN User B ON R.borrower_id = B.id " +
+                    "WHERE R.lender_id = " + userId;
 
-            }
+            resultSet = statement.executeQuery(query);
+
             while (resultSet.next()) {
                 Request request = new Request(resultSet);
                 requests.add(request);
             }
+
+            if (requests.isEmpty()) {
+                return new GlobalResponse(200, "Request history is empty");
+            }
+
             response = new RequestResponse(200, "Success", requests);
+            resultSet.close();
+            statement.close();
             return response;
         } catch (Exception e) {
             return new GlobalResponse(500, e.toString());
@@ -128,7 +139,7 @@ public class RequestBSL {
         RequestBSL request = new RequestBSL();
         // GlobalResponse res = request.addRequest(5, 1);
         // GlobalResponse res2 = request.manageRequest(2, 3, true);
-        GlobalResponse res2 = request.showRequestHistory(5);
+        GlobalResponse res2 = request.showRequestHistory(2);
 
         System.out.println(res2);
     }
