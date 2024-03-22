@@ -11,12 +11,12 @@ import server.Utils.Hashing;
 public class AuthBSl {
     private Connection connection;
 
-    public GlobalResponse signup(String name, String username, String password) {
+    public GlobalResponse signup(String name, String username, String password,String role) {
         try {
             connection = DatabaseManager.getConnection();
             password = Hashing.doHashing(password);
-            String query = "INSERT INTO User (name, username, password) VALUES ('" +
-                    name + "', '" + username + "', '" + password + "')";
+            String query = "INSERT INTO User (name, username, password,role) VALUES ('" +
+                    name + "', '" + username + "', '" + password + "', '"+role+"')";
 
             Statement statement = connection.createStatement();
             int rowsInserted = statement.executeUpdate(query);
@@ -62,10 +62,10 @@ public class AuthBSl {
     public static void main(String[] args) {
         DatabaseManager.connect();
         AuthBSl authBSl = new AuthBSl();
-        // authBSl.signup("amr", "amr123", "amr123");
-        GlobalResponse res = authBSl.login("amr123", "amr123");
+        authBSl.signup("ali", "ali123", "ali123","admin");
+        // GlobalResponse res = authBSl.login("amr123", "amr123");
         // Check if the response is an instance of SignInResponse
-        System.out.println(res);
+        // System.out.println(res);
     }
 
 }
