@@ -11,12 +11,12 @@ import server.Utils.Hashing;
 public class AuthBSl {
     private Connection connection;
 
-    public GlobalResponse signup(String name, String username, String password,String role) {
+    public GlobalResponse signup(String name, String username, String password) {
         try {
             connection = DatabaseManager.getConnection();
             password = Hashing.doHashing(password);
-            String query = "INSERT INTO User (name, username, password,role) VALUES ('" +
-                    name + "', '" + username + "', '" + password + "', '"+role+"')";
+            String query = "INSERT INTO User (name, username, password) VALUES ('" +
+                    name + "', '" + username + "', '" + password + "')";
 
             Statement statement = connection.createStatement();
             int rowsInserted = statement.executeUpdate(query);
@@ -45,7 +45,7 @@ public class AuthBSl {
                 if (!Hashing.comparePassword(password, hashPassword)) {
                     response = new GlobalResponse(401, "Unauthorized");
                 } else {
-                    User user =new User(resultSet);
+                    User user = new User(resultSet);
                     response = new LogInResponse(200, "Welcome Back", user);
                 }
             } else {
@@ -57,15 +57,6 @@ public class AuthBSl {
         } catch (Exception e) {
             return new GlobalResponse(500, e.toString());
         }
-    }
-
-    public static void main(String[] args) {
-        DatabaseManager.connect();
-        AuthBSl authBSl = new AuthBSl();
-        authBSl.signup("ali", "ali123", "ali123","admin");
-        // GlobalResponse res = authBSl.login("amr123", "amr123");
-        // Check if the response is an instance of SignInResponse
-        // System.out.println(res);
     }
 
 }
