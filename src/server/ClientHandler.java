@@ -10,7 +10,6 @@ import server.handler.UserHandler;
 
 public class ClientHandler implements Runnable {
     private Socket socket;
-    private BufferedWriter writer;
     private int id;
     private String userName;
 
@@ -74,6 +73,7 @@ public class ClientHandler implements Runnable {
                 userObj.showLibraryOverallStatistics(reader, writer, objectOutputStream);
                 break;
             default:
+                Server.users.get(userName);
                 break;
         }
     }
