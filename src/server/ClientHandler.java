@@ -26,7 +26,11 @@ public class ClientHandler implements Runnable {
             String req;
             UserHandler userObj = new UserHandler();
             while ((req = reader.readLine()) != null && !req.equals("5")) {
-                handleRequest(req, reader, writer, objectOutputStream, userObj);
+                try {
+                    handleRequest(req, reader, writer, objectOutputStream, userObj);
+                } catch (Exception e) {
+                    System.out.println(e.toString());
+                }
             }
         } catch (Exception e) {
             System.out.println(e.toString());
