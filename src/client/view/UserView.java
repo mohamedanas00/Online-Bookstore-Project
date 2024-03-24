@@ -10,156 +10,158 @@ import client.validation.InputValidation;
 public class UserView {
 
     public static void displayUserMenu(Scanner scanner, BufferedReader reader, BufferedWriter writer,
-            ObjectInputStream objectInputStream)
-            throws IOException, ClassNotFoundException {
-        boolean flag = true;
-        String id;
-        Object receivedObject;
-        while (flag) {
-            System.out.println("\nWelcome to the User Interface!");
-            System.out.println("1. Add Book");
-            System.out.println("2. Remove Book");
-            System.out.println("3. Search for Books by Title, Author, or Genre");
-            System.out.println("4. Add a Review Book");
-            System.out.println("5. Request For Borrow Book");
-            System.out.println("6. Show My Request History as lender");
-            System.out.println("7. Show MY Request History as borrower");
-            System.out.println("8. Manage Incoming Request");
-            System.out.println("9. Chatting");
-            System.out.println("Enter any key to Logout.");
-            System.out.print("\nEnter your choice: ");
-            String choice = scanner.nextLine();
+            ObjectInputStream objectInputStream) {
+        try {
+            boolean flag = true;
+            String id;
+            Object receivedObject;
+            while (flag) {
+                System.out.println("\nWelcome to the User Interface!");
+                System.out.println("1. Add Book");
+                System.out.println("2. Remove Book");
+                System.out.println("3. Search for Books by Title, Author, or Genre");
+                System.out.println("4. Add a Review Book");
+                System.out.println("5. Request For Borrow Book");
+                System.out.println("6. Show My Request History as lender");
+                System.out.println("7. Show MY Request History as borrower");
+                System.out.println("8. Manage Incoming Request");
+                System.out.println("9. Chatting");
+                System.out.println("Enter any key to Logout.");
+                System.out.print("\nEnter your choice: ");
+                String choice = scanner.nextLine();
 
-            switch (choice) {
-                case "1":
-                    writer.write("Add Book");
-                    writer.newLine();
+                switch (choice) {
+                    case "1":
+                        writer.write("Add Book");
+                        writer.newLine();
 
-                    String title = InputValidation.getInput(scanner, "Enter title: ");
-                    String author = InputValidation.getInput(scanner, "Enter author: ");
-                    String genre = InputValidation.getInput(scanner, "Enter genre: ");
-                    double price = InputValidation.getDoubleInput(scanner, "Enter price: ");
-                    int quantity = InputValidation.getIntInput(scanner, "Enter quantity: ");
+                        String title = InputValidation.getInput(scanner, "Enter title: ");
+                        String author = InputValidation.getInput(scanner, "Enter author: ");
+                        String genre = InputValidation.getInput(scanner, "Enter genre: ");
+                        double price = InputValidation.getDoubleInput(scanner, "Enter price: ");
+                        int quantity = InputValidation.getIntInput(scanner, "Enter quantity: ");
 
-                    writer.write(title + ";" + author + ";" + genre + ";" + price + ";" + quantity + ";");
-                    writer.newLine();
-                    writer.flush();
+                        writer.write(title + ";" + author + ";" + genre + ";" + price + ";" + quantity + ";");
+                        writer.newLine();
+                        writer.flush();
 
-                    receivedObject = objectInputStream.readObject();
-                    System.out.println(receivedObject);
-                    break;
+                        receivedObject = objectInputStream.readObject();
+                        System.out.println(receivedObject);
+                        break;
 
-                case "2":
-                    writer.write("Remove Book");
-                    writer.newLine();
+                    case "2":
+                        writer.write("Remove Book");
+                        writer.newLine();
 
-                    id = InputValidation.getInput(scanner, "Enter Book ID: ");
-                    writer.write(id);
-                    writer.newLine();
-                    writer.flush();
+                        id = InputValidation.getInput(scanner, "Enter Book ID: ");
+                        writer.write(id);
+                        writer.newLine();
+                        writer.flush();
 
-                    receivedObject = objectInputStream.readObject();
-                    System.out.println(receivedObject);
-                    break;
+                        receivedObject = objectInputStream.readObject();
+                        System.out.println(receivedObject);
+                        break;
 
-                case "3":
-                    writer.write("search");
-                    writer.newLine();
+                    case "3":
+                        writer.write("search");
+                        writer.newLine();
 
-                    String text = InputValidation.getInput(scanner, "Enter  Title, Author, or Genre : ");
-                    writer.write(text);
-                    writer.newLine();
-                    writer.flush();
+                        String text = InputValidation.getInput(scanner, "Enter  Title, Author, or Genre : ");
+                        writer.write(text);
+                        writer.newLine();
+                        writer.flush();
 
-                    receivedObject = objectInputStream.readObject();
-                    System.out.println(receivedObject);
-                    break;
+                        receivedObject = objectInputStream.readObject();
+                        System.out.println(receivedObject);
+                        break;
 
-                case "4":
-                    writer.write("review");
-                    writer.newLine();
-                    int bookId = InputValidation.getIntInput(scanner, "Enter Book ID: ");
-                    String comment = InputValidation.getInput(scanner, "Enter Your Comment: ");
-                    int Rating = InputValidation.getIntInputInRange(scanner, "Enter a number between 0 and 5:", 0, 5);
+                    case "4":
+                        writer.write("review");
+                        writer.newLine();
+                        int bookId = InputValidation.getIntInput(scanner, "Enter Book ID: ");
+                        String comment = InputValidation.getInput(scanner, "Enter Your Comment: ");
+                        int Rating = InputValidation.getIntInputInRange(scanner, "Enter a number between 0 and 5:", 0,
+                                5);
 
-                    writer.write(bookId + ";" + comment + ";" + Rating + ";");
-                    writer.newLine();
-                    writer.flush();
+                        writer.write(bookId + ";" + comment + ";" + Rating + ";");
+                        writer.newLine();
+                        writer.flush();
 
-                    receivedObject = objectInputStream.readObject();
-                    System.out.println(receivedObject);
-                    break;
+                        receivedObject = objectInputStream.readObject();
+                        System.out.println(receivedObject);
+                        break;
 
-                case "5":
-                    writer.write("borrow");
-                    writer.newLine();
-                    writer.flush();
+                    case "5":
+                        writer.write("borrow");
+                        writer.newLine();
+                        writer.flush();
 
-                    id = InputValidation.getInput(scanner, "Enter Book ID: ");
-                    writer.write(id);
-                    writer.newLine();
-                    writer.flush();
+                        id = InputValidation.getInput(scanner, "Enter Book ID: ");
+                        writer.write(id);
+                        writer.newLine();
+                        writer.flush();
 
-                    receivedObject = objectInputStream.readObject();
-                    System.out.println(receivedObject);
-                    break;
-                case "6":
-                    writer.write("L_history");
-                    writer.newLine();
-                    writer.flush();
+                        receivedObject = objectInputStream.readObject();
+                        System.out.println(receivedObject);
+                        break;
+                    case "6":
+                        writer.write("L_history");
+                        writer.newLine();
+                        writer.flush();
 
-                    receivedObject = objectInputStream.readObject();
-                    System.out.println(receivedObject);
+                        receivedObject = objectInputStream.readObject();
+                        System.out.println(receivedObject);
 
-                    break;
-                case "7":
-                    writer.write("B_history");
-                    writer.newLine();
-                    writer.flush();
+                        break;
+                    case "7":
+                        writer.write("B_history");
+                        writer.newLine();
+                        writer.flush();
 
-                    receivedObject = objectInputStream.readObject();
-                    System.out.println(receivedObject);
-                    break;
-                case "8":
-                    writer.write("Manage Req");
-                    writer.newLine();
+                        receivedObject = objectInputStream.readObject();
+                        System.out.println(receivedObject);
+                        break;
+                    case "8":
+                        writer.write("Manage Req");
+                        writer.newLine();
 
-                    int reqId = InputValidation.getIntInput(scanner, "Enter Request ID: ");
-                    int status = InputValidation.getIntInputInRange(scanner, "Enter 0.Refused 1.Accept ", 0, 1);
-                    writer.write(reqId + ";" + status + ";");
-                    writer.newLine();
-                    writer.flush();
-                    System.out.println("ssssssssssssss1");
+                        int reqId = InputValidation.getIntInput(scanner, "Enter Request ID: ");
+                        int status = InputValidation.getIntInputInRange(scanner, "Enter 0.Refused 1.Accept ", 0, 1);
+                        writer.write(reqId + ";" + status + ";");
+                        writer.newLine();
+                        writer.flush();
 
-                    receivedObject = objectInputStream.readObject();
-                    System.out.println("ssssssssssssss2");
+                        receivedObject = objectInputStream.readObject();
 
-                    if (reader.readLine().equals("chat")) {
-                        String ChatWith = reader.readLine();
-                        startChatSession(reader, writer, scanner, ChatWith);
-                    }
-                    System.out.println(receivedObject);
-                    break;
-                case "9":
-                    System.out.println("Enter username you want to chat with:");
-                    String chatUsername = scanner.nextLine();
-                    writer.write("chat");
-                    writer.newLine();
+                        if (reader.readLine().equals("chat")) {
+                            String ChatWith = reader.readLine();
+                            startChatSession(reader, writer, scanner, ChatWith);
+                        }
+                        System.out.println(receivedObject);
+                        break;
+                    case "9":
+                        System.out.println("Enter username you want to chat with:");
+                        String chatUsername = scanner.nextLine();
+                        writer.write("chat");
+                        writer.newLine();
 
-                    writer.write(chatUsername);
-                    writer.newLine();
-                    writer.flush();
-                    // Start chat session
-                    startChatSession(reader, writer, scanner, chatUsername);
-                    break;
-                default:
-                    writer.write("Logout");
-                    writer.newLine();
-                    writer.flush();
-                    flag = false;
+                        writer.write(chatUsername);
+                        writer.newLine();
+                        writer.flush();
+                        // Start chat session
+                        startChatSession(reader, writer, scanner, chatUsername);
+                        break;
+                    default:
+                        writer.write("Logout");
+                        writer.newLine();
+                        writer.flush();
+                        flag = false;
 
-                    break;
+                        break;
+                }
             }
+        } catch (Exception e) {
+            System.out.println(e.toString());
         }
 
     }
