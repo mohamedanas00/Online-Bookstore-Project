@@ -35,6 +35,7 @@ public class UserHandler {
         objectOutputStream.writeObject(response);
         writer.flush();
     }
+   
     public void showLibraryOverallStatistics(BufferedReader reader, BufferedWriter writer,
         ObjectOutputStream objectOutputStream) throws IOException {
         LibraryBSL libraryBSL =new LibraryBSL();
@@ -43,6 +44,14 @@ public class UserHandler {
         writer.flush();
     }
 
+    public void ShowBooksBasedOn(BufferedReader reader, BufferedWriter writer,
+    ObjectOutputStream objectOutputStream)throws IOException{
+        BookBSl bookBSl = new BookBSl();
+        String text = reader.readLine();
+        GlobalResponse response =  bookBSl.ShowBooks(id, text);
+        objectOutputStream.writeObject(response);
+        writer.flush();
+    }
     public void handleRemoveBook(BufferedReader reader, BufferedWriter writer,
             ObjectOutputStream objectOutputStream) throws IOException {
         BookBSl bookBSl = new BookBSl();

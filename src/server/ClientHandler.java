@@ -40,7 +40,7 @@ public class ClientHandler implements Runnable {
                 handleSignup(reader, writer, objectOutputStream);
                 break;
             case "Login":
-                handleLogin(reader, writer, objectOutputStream,userObj);
+                handleLogin(reader, writer, objectOutputStream, userObj);
                 break;
             case "Add Book":
                 userObj.handleAddBook(reader, writer, objectOutputStream);
@@ -50,6 +50,9 @@ public class ClientHandler implements Runnable {
                 break;
             case "search":
                 userObj.handleSearch(reader, writer, objectOutputStream);
+                break;
+            case "show books":
+                userObj.ShowBooksBasedOn(reader, writer, objectOutputStream);
                 break;
             case "review":
                 userObj.handleReview(reader, writer, objectOutputStream);
