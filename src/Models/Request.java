@@ -14,6 +14,7 @@ public class Request implements Serializable{
    private String status;
 
 
+
     public Request(ResultSet resultSet) throws SQLException{
         id= resultSet.getInt("id");
         borrowerId=resultSet.getInt("borrower_id");
@@ -24,7 +25,7 @@ public class Request implements Serializable{
         borrowerUsername = resultSet.getString("borrower_username");
     }
 
-
+    
     @Override
     public String toString() {
         return "Request [id=" + id + ", borrowerId=" + borrowerId + ", lenderId=" + lenderId + ", bookId=" + bookId
@@ -33,13 +34,24 @@ public class Request implements Serializable{
     }
 
 
+    public String getLenderUsername() {
+        return lenderUsername;
+    }
+
+
+    public String getBorrowerUsername() {
+        return borrowerUsername;
+    }
+
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+    
     
 
-
-    
-
-
-
-
-    
+    public String getStatus() {
+        return status;
+    }
+ 
 }

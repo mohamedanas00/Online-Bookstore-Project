@@ -24,6 +24,10 @@ public class RequestResponse extends GlobalResponse{
         return responseString.toString();
     }
 
+    public List<Request> getRequests() {
+        return requests;
+    }
+
     
     
 

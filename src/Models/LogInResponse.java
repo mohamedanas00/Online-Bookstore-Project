@@ -21,4 +21,8 @@ public class LogInResponse extends GlobalResponse{
         "]"+
         '}';
     }
+
+    public User getUser() {
+        return user;
+    }
 }
