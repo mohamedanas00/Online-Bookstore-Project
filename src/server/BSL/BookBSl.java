@@ -210,13 +210,5 @@ public class BookBSl {
         return resultSet;
     }
 
-    public static void main(String[] args) {
-        DatabaseManager.connect();
-        // Book book = new Book("Future", "Mark", "Drama", 99.4, 10);
-        BookBSl bookBSl = new BookBSl();
-        GlobalResponse res = bookBSl.ShowBooks(2, "1");
-        // GlobalResponse res = bookBSl.addBook(2, book);
-        System.out.println(res);
-    }
 
 }

@@ -38,10 +38,4 @@ public class ReviewBSL {
         }
     }
 
-    public static void main(String[] args) {
-        DatabaseManager.connect();
-        ReviewBSL review = new ReviewBSL();
-        GlobalResponse res = review.addReview(2, 1, 1, "Greate");
-        System.out.println(res);
-    }
 }

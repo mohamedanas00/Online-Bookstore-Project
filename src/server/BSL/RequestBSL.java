@@ -186,13 +186,4 @@ public class RequestBSL {
         }
     }
 
-    public static void main(String[] args) {
-        DatabaseManager.connect();
-        RequestBSL request = new RequestBSL();
-        // GlobalResponse res = request.addRequest(5, 1);
-        GlobalResponse res2 = request.manageRequest(2, 5, true);
-        // GlobalResponse res2 = request.showRequestHistory(2);
-
-        System.out.println(res2);
-    }
 }

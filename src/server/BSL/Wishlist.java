@@ -91,13 +91,4 @@ public class Wishlist {
             return new GlobalResponse(500, e.toString());
         }
     }
-
-    public static void main(String[] args) {
-        DatabaseManager.connect();
-        Wishlist wishlist = new Wishlist();
-        // GlobalResponse response=wishlist.addToWishlist(9, 4);
-        // GlobalResponse response2 = wishlist.deleteFromWishlist(9, 2);
-        GlobalResponse response3 = wishlist.getMyWishlist(9);
-        System.out.println(response3);
-    }
 }

@@ -61,10 +61,4 @@ public class LibraryBSL {
         return count;
     }
 
-    public static void main(String[] args) {
-        DatabaseManager.connect();
-        LibraryBSL libraryBSL = new LibraryBSL();
-        GlobalResponse res = libraryBSL.getLibraryStatistics(6);
-        System.out.println(res);
-    }
 }
