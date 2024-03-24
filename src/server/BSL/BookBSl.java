@@ -73,7 +73,6 @@ public class BookBSl {
             }
 
             UserBSL userBsl = new UserBSL();
-            User user = userBsl.getUserDetails(userId);
             String query = "SELECT * " +
                     "FROM Book " +
                     "WHERE " +
@@ -85,6 +84,37 @@ public class BookBSl {
             ResultSet resultSet = statement.executeQuery(query);
             while (resultSet.next()) {
                 Book book = new Book(resultSet);
+                User user = userBsl.getUserDetails(book.getUserId());
+                book.setUser(user);
+                books.add(book);
+            }
+            response = new BookResponse(200, "Success", books);
+            statement.close();
+            resultSet.close();
+            return response;
+        } catch (Exception e) {
+            return new GlobalResponse(500, e.toString());
+        }
+    }
+
+    public GlobalResponse ShowBooks(int userId, String choice) {
+        List<Book> books = new ArrayList<>();
+        try {
+            connection = DatabaseManager.getConnection();
+            GlobalResponse response;
+            ResultSet resultSet;
+            UserBSL userBsl = new UserBSL();
+            if (!Authorization.checkAuthorization(userId, "user", connection)) {
+                return new GlobalResponse(401, "Unauthorized");
+            }
+            if (choice.equals("1")) {
+                resultSet = getBasedOnReviews();
+            } else {
+                resultSet = getBasedOnUserPreferences(userId);
+            }
+            while (resultSet.next()) {
+                Book book = new Book(resultSet);
+                User user = userBsl.getUserDetails(book.getUserId());
                 book.setUser(user);
                 books.add(book);
             }
@@ -131,7 +161,6 @@ public class BookBSl {
         while (resultSet.next()) {
             int bookId = resultSet.getInt("book_id");
             double avgRating = resultSet.getDouble("avg_rating");
-            System.out.println(avgRating);
             updateRatingAvg(connection, bookId, avgRating);
         }
         return false;
@@ -146,11 +175,46 @@ public class BookBSl {
         }
     }
 
+    private ResultSet getBasedOnUserPreferences(int userId) throws SQLException {
+        // Query to retrieve book recommendations based on user preferences
+        String genreQuery = "SELECT DISTINCT genre FROM Book " +
+                "WHERE user_id = " + userId;
+        statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(genreQuery);
+
+        // Collecting user's preferred genres
+        List<String> preferredGenres = new ArrayList<>();
+        while (resultSet.next()) {
+            preferredGenres.add(resultSet.getString("genre"));
+        }
+
+        // Generating recommendations based on preferred genres
+        for (String genre : preferredGenres) {
+            String recommendationQuery = "SELECT * FROM Book " +
+                    "WHERE genre = '" + genre + "' " +
+                    "AND user_id != " + userId + " " +
+                    "ORDER BY ratingAvg DESC " +
+                    "LIMIT 5"; // Limiting to top 5 recommendations per genre
+            resultSet = statement.executeQuery(recommendationQuery);
+        }
+        return resultSet;
+    }
+
+    private ResultSet getBasedOnReviews() throws SQLException {
+        // Query to retrieve book recommendations based on user preferences
+        String sqlQuery = "SELECT b.* " +
+                "FROM Book b " +
+                "ORDER BY b.genre, b.ratingAvg DESC";
+        statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(sqlQuery);
+        return resultSet;
+    }
+
     public static void main(String[] args) {
         DatabaseManager.connect();
         // Book book = new Book("Future", "Mark", "Drama", 99.4, 10);
         BookBSl bookBSl = new BookBSl();
-        GlobalResponse res = bookBSl.searchBooks(2, "Drama");
+        GlobalResponse res = bookBSl.ShowBooks(2, "1");
         // GlobalResponse res = bookBSl.addBook(2, book);
         System.out.println(res);
     }
