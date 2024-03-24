@@ -13,6 +13,7 @@ import Models.Request;
 import Models.RequestResponse;
 import server.Server;
 import server.BSL.BookBSl;
+import server.BSL.LibraryBSL;
 import server.BSL.RequestBSL;
 import server.BSL.ReviewBSL;
 
@@ -31,6 +32,13 @@ public class UserHandler {
         int quantity = Integer.parseInt(parts[4]);
         Book book = new Book(title, author, genre, price, quantity);
         GlobalResponse response = bookBSl.addBook(id, book);
+        objectOutputStream.writeObject(response);
+        writer.flush();
+    }
+    public void showLibraryOverallStatistics(BufferedReader reader, BufferedWriter writer,
+        ObjectOutputStream objectOutputStream) throws IOException {
+        LibraryBSL libraryBSL =new LibraryBSL();
+        GlobalResponse response = libraryBSL.getLibraryStatistics(id);
         objectOutputStream.writeObject(response);
         writer.flush();
     }
@@ -166,6 +174,7 @@ public class UserHandler {
         }
     }
 
+    
     public void setId(int id) {
         this.id = id;
     }

@@ -1,9 +1,7 @@
-// Client.java
 package client;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.OutputStreamWriter;
@@ -13,6 +11,7 @@ import java.util.Scanner;
 import Models.GlobalResponse;
 import Models.LogInResponse;
 import client.validation.InputValidation;
+import client.view.AminView;
 import client.view.UserView;
 
 public class Client {
@@ -41,10 +40,9 @@ public class Client {
                 System.out.println("\n");
                 System.out.println("1. Signup");
                 System.out.println("2. Login");
-                System.out.println("3. Exit");
-                System.out.print("\nEnter your choice (1/2/3): ");
+                System.out.println("Enter any key to Exit.");
                 String choice;
-                choice = scanner.nextLine();
+                choice = InputValidation.getInput(scanner, "\nEnter your choice: ");
                 switch (choice) {
                     case "1":
                         writer.write("Signup");
@@ -72,6 +70,8 @@ public class Client {
                             String role = ((LogInResponse) receivedObject).getUser().getRole();
                             if (role.equals("user")) {
                                 UserView.displayUserMenu(scanner,reader ,writer, objectInputStream);
+                            }else{
+                                AminView.displayAdminMenu(scanner, reader, writer, objectInputStream);
                             }
 
                         }

@@ -70,6 +70,9 @@ public class ClientHandler implements Runnable {
             case "chat":
                 userObj.handleChat(reader, writer, objectOutputStream);
                 break;
+            case "admin":
+                userObj.showLibraryOverallStatistics(reader, writer, objectOutputStream);
+                break;
             default:
                 break;
         }
