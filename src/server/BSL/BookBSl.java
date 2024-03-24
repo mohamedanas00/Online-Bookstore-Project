@@ -40,6 +40,29 @@ public class BookBSl {
         }
     }
 
+    public GlobalResponse deleteBook(int userId, int bookId) {
+        try {
+            connection = DatabaseManager.getConnection();
+            GlobalResponse response;
+            if (!Authorization.checkAuthorization(userId, "user", connection)) {
+                return new GlobalResponse(401, "Unauthorized");
+            }
+            String query = "DELETE FROM Book WHERE user_id = " + userId + " AND id = " + bookId;
+
+            statement = connection.createStatement();
+            int rowsDeleted = statement.executeUpdate(query);
+            if (rowsDeleted > 0) {
+                response = new GlobalResponse(200, "Book deleted successfully.");
+            } else {
+                response = new GlobalResponse(404, "Book not found or could not be deleted.");
+            }
+            statement.close();
+            return response;
+        } catch (Exception e) {
+            return new GlobalResponse(500, e.toString());
+        }
+    }
+
     public GlobalResponse searchBooks(int userId, String searchQuery) {
         List<Book> books = new ArrayList<>();
         try {
