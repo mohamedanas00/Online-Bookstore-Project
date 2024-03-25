@@ -28,7 +28,7 @@ public class LibraryStatistics implements Serializable {
         statisticsString.append("  Accepted Requests Count: ").append(acceptedRequestsCount).append("\n");
         statisticsString.append("  Rejected Requests Count: ").append(rejectedRequestsCount).append("\n");
         statisticsString.append("  Pending Requests Count: ").append(pendingRequestsCount).append("\n");
-        statisticsString.append("}");
+        statisticsString.append("   }");
         return statisticsString.toString();
     }
     

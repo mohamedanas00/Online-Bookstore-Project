@@ -18,17 +18,24 @@ public class BookResponse extends GlobalResponse {
     @Override
     public String toString() {
         StringBuilder responseString = new StringBuilder();
-        responseString.append("BookResponse {\n");
-        responseString.append("  Status: '").append(getStatus()).append("',\n");
-        responseString.append("  Message: '").append(getMessage()).append("',\n");
-        responseString.append("  Books: [\n");
-        for (Book book : books) {
-            responseString.append("    ").append(Book.bookDetailsToString(book)).append(",\n");
+        responseString.append("------------------------------\n");
+
+        responseString.append("BookResponse\n {\n");
+        responseString.append(" Status: '").append(getStatus()).append("',\n");
+        responseString.append(" Message: '").append(getMessage()).append("',\n");
+        responseString.append(" Books: [\n");
+        for (int i = 0; i < books.size(); i++) {
+            responseString.append(Book.bookDetailsToString(books.get(i)));
+         
         }
+        // for (Book book : books) {
+        //     responseString.append(" ").append(Book.bookDetailsToString(book)).append(",\n");
+        // }
         responseString.append("  ]\n");
         responseString.append("}");
+        responseString.append("\n------------------------------");
+
         return responseString.toString();
     }
-    
 
 }

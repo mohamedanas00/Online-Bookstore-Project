@@ -12,8 +12,9 @@ public class LogInResponse extends GlobalResponse{
     @Override
     public String toString() {
         StringBuilder responseString = new StringBuilder();
-        responseString.append("Response {\n");
-        responseString.append("  Status: '").append(getStatus()).append("',\n");
+        responseString.append("------------------------------\n");
+        responseString.append("Response\n{");
+        responseString.append("\n  Status: '").append(getStatus()).append("',\n");
         responseString.append("  Message: ").append(getMessage()).append(",\n");
         responseString.append("  User: {\n");
         responseString.append("    ID: ").append(user.getId()).append(",\n");
@@ -21,6 +22,7 @@ public class LogInResponse extends GlobalResponse{
         responseString.append("    Role: '").append(user.getRole()).append("'\n");
         responseString.append("  }\n");
         responseString.append("}");
+        responseString.append("\n------------------------------");
         return responseString.toString();
     }
     
