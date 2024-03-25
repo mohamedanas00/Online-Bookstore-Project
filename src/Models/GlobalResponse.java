@@ -22,10 +22,12 @@ public class GlobalResponse implements Serializable {
     @Override
     public String toString() {
         StringBuilder responseString = new StringBuilder();
-        responseString.append("Response {\n");
-        responseString.append("  Status: '").append(status).append("',\n");
+        responseString.append("------------------------------\n");
+        responseString.append("Response\n{");
+        responseString.append("\n  Status: '").append(status).append("',\n");
         responseString.append("  Message: ").append(message).append("\n");
         responseString.append("}");
+        responseString.append("\n------------------------------");
         return responseString.toString();
     }
     

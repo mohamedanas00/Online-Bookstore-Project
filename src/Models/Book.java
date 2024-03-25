@@ -80,15 +80,18 @@ public class Book implements Serializable {
     
     public static String bookDetailsToString(Book book) {
         StringBuilder sb = new StringBuilder();
-        sb.append("Book Details:\n");
-        sb.append("  ID: ").append(book.getId()).append("\n");
-        sb.append("  Title: ").append(book.getTitle()).append("\n");
-        sb.append("  Author: ").append(book.getAuthor()).append("\n");
-        sb.append("  Genre: ").append(book.getGenre()).append("\n");
-        sb.append("  Price: ").append(book.getPrice()).append("\n");
-        sb.append("  Average Rating: ").append(book.getRatingAvg()).append("\n");
-        sb.append("  Quantity: ").append(book.getQuantity()).append("\n");
-        sb.append("  User: ").append(book.getUser()).append("\n");
+        sb.append("     {\n");
+        sb.append("         ID: ").append(book.getId()).append("\n");
+        sb.append("         Title: ").append(book.getTitle()).append("\n");
+        sb.append("         Author: ").append(book.getAuthor()).append("\n");
+        sb.append("         Genre: ").append(book.getGenre()).append("\n");
+        sb.append("         Price: ").append(book.getPrice()).append("\n");
+        sb.append("         Average Rating: ").append(book.getRatingAvg()).append("\n");
+        sb.append("         Quantity: ").append(book.getQuantity()).append("\n");
+        sb.append("         UserId: ").append(book.getUser().getId()).append("\n");
+        sb.append("         NameOfUser: ").append(book.getUser().getName()).append("\n");
+        sb.append("         Username: ").append(book.getUser().getUsername()).append("\n");
+        sb.append("     }\n");
         return sb.toString();
     }
     
