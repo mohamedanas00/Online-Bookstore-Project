@@ -54,7 +54,7 @@ public class BookBSl {
             if (rowsDeleted > 0) {
                 response = new GlobalResponse(200, "Book deleted successfully.");
             } else {
-                response = new GlobalResponse(404, "Book not found or could not be deleted.");
+                response = new GlobalResponse(404, "Book not found or you are not Owner of a book.");
             }
             statement.close();
             return response;
