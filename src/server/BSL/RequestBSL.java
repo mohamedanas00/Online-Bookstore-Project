@@ -62,7 +62,6 @@ public class RequestBSL {
     public GlobalResponse manageRequest(int userId, int requestId, boolean status) {
         GlobalResponse response;
         Request request;
-        String state="";
         List<Request> requests = new ArrayList<>();
         try {
             connection = DatabaseManager.getConnection();
