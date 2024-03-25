@@ -62,6 +62,7 @@ public class RequestBSL {
     public GlobalResponse manageRequest(int userId, int requestId, boolean status) {
         GlobalResponse response;
         Request request;
+        String state="";
         List<Request> requests = new ArrayList<>();
         try {
             connection = DatabaseManager.getConnection();
@@ -73,7 +74,6 @@ public class RequestBSL {
                     "JOIN User lu ON r.lender_id = lu.id " +
                     "WHERE r.id = " + requestId;
             ResultSet resultSet = statement.executeQuery(query);
-
             String stat = " ";
             if (resultSet.next()) {
                 stat = resultSet.getString("status");
@@ -85,22 +85,23 @@ public class RequestBSL {
             if (!stat.equals("Pending")) {
                 return new GlobalResponse(201, "Request Already Managed.");
             }
-
             int lenderId = resultSet.getInt("lender_id");
             if (lenderId != userId) {
                 return new GlobalResponse(401, "Unauthorized");
             }
             String query1;
             if (status) {
+                stat="Accepted";
                 query1 = "UPDATE Request SET status = 'Accepted' WHERE id =" + requestId;
 
             } else {
+                stat="Rejected";
                 query1 = "UPDATE Request SET status = 'Rejected' WHERE id =" + requestId;
             }
 
             int rowsInserted = statement.executeUpdate(query1);
             if (rowsInserted > 0) {
-                request.setStatus("Accepted");
+                request.setStatus(stat);
                 requests.add(request);
                 response = new RequestResponse(200, "Success.", requests);
 

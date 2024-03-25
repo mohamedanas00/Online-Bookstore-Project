@@ -17,7 +17,6 @@ public class UserBSL {
         if(resultSet.next()){
             user= new User(resultSet);
             user= new User(resultSet);
-            System.out.println(user);
         }else{
             return null;
         }
