@@ -52,6 +52,7 @@ public class IoHandler {
         objectOutputStream.writeObject(response);
         writer.flush();
     }
+    
     public void handleRemoveBook(BufferedReader reader, BufferedWriter writer,
             ObjectOutputStream objectOutputStream) throws IOException {
         BookBSl bookBSl = new BookBSl();

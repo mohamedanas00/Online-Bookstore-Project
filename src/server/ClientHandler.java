@@ -74,13 +74,15 @@ public class ClientHandler implements Runnable {
                 userObj.handleManageRequest(reader, writer, objectOutputStream);
                 break;
             case "chat":
-                userObj.handleChat(reader, writer,"");
+                userObj.handleChat(reader, writer, "");
                 break;
             case "admin":
                 userObj.showLibraryOverallStatistics(reader, writer, objectOutputStream);
                 break;
-            default:
+            case "Logout":
                 Server.users.remove(userName);
+                break;
+            default:
                 break;
         }
     }
