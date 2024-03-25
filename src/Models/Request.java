@@ -26,13 +26,6 @@ public class Request implements Serializable{
     }
 
     
-    @Override
-    public String toString() {
-        return "Request [id=" + id + ", borrowerId=" + borrowerId + ", lenderId=" + lenderId + ", bookId=" + bookId
-                + ", lenderUsername=" + lenderUsername + ", borrowerUsername=" + borrowerUsername + ", status=" + status
-                + "]";
-    }
-
 
     public String getLenderUsername() {
         return lenderUsername;
@@ -52,6 +45,21 @@ public class Request implements Serializable{
 
     public String getStatus() {
         return status;
+    }
+
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Request Details:\n");
+        sb.append("  ID: ").append(id).append("\n");
+        sb.append("  Borrower ID: ").append(borrowerId).append("\n");
+        sb.append("  Lender ID: ").append(lenderId).append("\n");
+        sb.append("  Book ID: ").append(bookId).append("\n");
+        sb.append("  Lender Username: ").append(lenderUsername).append("\n");
+        sb.append("  Borrower Username: ").append(borrowerUsername).append("\n");
+        sb.append("  Status: ").append(status).append("\n");
+        return sb.toString();
     }
  
 }

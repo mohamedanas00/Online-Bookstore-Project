@@ -42,11 +42,13 @@ public class User implements Serializable{
 
     @Override
     public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", username='" + username + '\'' +
-                '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("User Details:\n");
+        sb.append("  ID: ").append(id).append("\n");
+        sb.append("  Name: ").append(name).append("\n");
+        sb.append("  Username: ").append(username).append("\n");
+        return sb.toString();
     }
+    
     
 }
