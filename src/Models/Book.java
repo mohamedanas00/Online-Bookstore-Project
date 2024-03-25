@@ -79,16 +79,19 @@ public class Book implements Serializable {
     }
     
     public static String bookDetailsToString(Book book) {
-        return "Book{id=" + book.getId() +
-                ", title='" + book.getTitle() + '\'' +
-                ", author='" + book.getAuthor() + '\'' +
-                ", genre='" + book.getGenre() + '\'' +
-                ", price=" + book.getPrice() + '\'' +
-                ", ratingAvg=" + book.getRatingAvg() +'\'' +
-                ", quantity=" + book.getQuantity() +'\n' +
-                "," + book.getUser() +
-                "}";
+        StringBuilder sb = new StringBuilder();
+        sb.append("Book Details:\n");
+        sb.append("  ID: ").append(book.getId()).append("\n");
+        sb.append("  Title: ").append(book.getTitle()).append("\n");
+        sb.append("  Author: ").append(book.getAuthor()).append("\n");
+        sb.append("  Genre: ").append(book.getGenre()).append("\n");
+        sb.append("  Price: ").append(book.getPrice()).append("\n");
+        sb.append("  Average Rating: ").append(book.getRatingAvg()).append("\n");
+        sb.append("  Quantity: ").append(book.getQuantity()).append("\n");
+        sb.append("  User: ").append(book.getUser()).append("\n");
+        return sb.toString();
     }
+    
 
 
 
