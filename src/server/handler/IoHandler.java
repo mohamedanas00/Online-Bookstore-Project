@@ -17,7 +17,7 @@ import server.BSL.LibraryBSL;
 import server.BSL.RequestBSL;
 import server.BSL.ReviewBSL;
 
-public class UserHandler {
+public class IoHandler {
     private int id;
     
     public void handleAddBook(BufferedReader reader, BufferedWriter writer,
@@ -121,21 +121,27 @@ public class UserHandler {
         int reqId = Integer.parseInt(parts[0]);
         int status = Integer.parseInt(parts[1]);
         GlobalResponse response;
-        System.out.println("ssssssssssssss2");
+
         if (status == 0) {
             response = requestBSL.manageRequest(id, reqId, false);
-        } else {
-            System.out.println("ssssssssssssss");
-            response = requestBSL.manageRequest(id, reqId, true);
             objectOutputStream.writeObject(response);
             writer.flush();
+
+            writer.write("no");
+            writer.newLine();
+            writer.flush();
+        } else {
+            response = requestBSL.manageRequest(id, reqId, true);
+            System.out.println(response);
             if (response.getStatus() == 200) {
                 String borrower = "";
+                objectOutputStream.writeObject(response);
                 RequestResponse requests = (RequestResponse) response;
                 List<Request> requestList = requests.getRequests();
                 for (Request request : requestList) {
                     borrower = request.getBorrowerUsername();
                 }
+                writer.flush();
 
                 writer.write("chat");
                 writer.newLine();
@@ -143,25 +149,31 @@ public class UserHandler {
                 writer.newLine();
                 writer.flush();
 
-                BufferedWriter targetWriter = new BufferedWriter(
-                        new OutputStreamWriter(Server.users.get(borrower).getOutputStream()));
-                startChatSession(reader, targetWriter);
+                handleChat(reader, writer, borrower);
+                // startChatSession(reader, targetWriter);
             } else {
+                objectOutputStream.writeObject(response);
+                writer.flush();
+
                 writer.write("no");
                 writer.newLine();
                 writer.flush();
             }
+
         }
-        objectOutputStream.writeObject(response);
-        writer.flush();
+
     }
 
     public void handleChat(BufferedReader reader, BufferedWriter writer,
-            ObjectOutputStream objectOutputStream) throws IOException {
-        String chatWith = reader.readLine();
-        if (Server.users.containsKey(chatWith)) {
+        String borrower   ) throws IOException {
+        
+        if (borrower == null || borrower.isEmpty()) {
+                borrower = reader.readLine();
+        }
+
+        if (Server.users.containsKey(borrower)) {
             BufferedWriter targetWriter = new BufferedWriter(
-                    new OutputStreamWriter(Server.users.get(chatWith).getOutputStream()));
+                    new OutputStreamWriter(Server.users.get(borrower).getOutputStream()));
             startChatSession(reader, targetWriter);
         } else {
             writer.write("User is Offline");
@@ -182,7 +194,6 @@ public class UserHandler {
             }
         }
     }
-
     
     public void setId(int id) {
         this.id = id;

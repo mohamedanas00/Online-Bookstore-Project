@@ -6,7 +6,7 @@ import java.net.Socket;
 import Models.GlobalResponse;
 import Models.LogInResponse;
 import server.BSL.*;
-import server.handler.UserHandler;
+import server.handler.IoHandler;
 
 public class ClientHandler implements Runnable {
     private Socket socket;
@@ -24,7 +24,7 @@ public class ClientHandler implements Runnable {
                 ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream())) {
 
             String req;
-            UserHandler userObj = new UserHandler();
+            IoHandler userObj = new IoHandler();
             while ((req = reader.readLine()) != null && !req.equals("5")) {
                 try {
                     handleRequest(req, reader, writer, objectOutputStream, userObj);
@@ -38,7 +38,7 @@ public class ClientHandler implements Runnable {
     }
 
     private void handleRequest(String req, BufferedReader reader, BufferedWriter writer,
-            ObjectOutputStream objectOutputStream, UserHandler userObj) throws IOException {
+            ObjectOutputStream objectOutputStream, IoHandler userObj) throws IOException {
         switch (req) {
             case "Signup":
                 handleSignup(reader, writer, objectOutputStream);
@@ -74,13 +74,13 @@ public class ClientHandler implements Runnable {
                 userObj.handleManageRequest(reader, writer, objectOutputStream);
                 break;
             case "chat":
-                userObj.handleChat(reader, writer, objectOutputStream);
+                userObj.handleChat(reader, writer,"");
                 break;
             case "admin":
                 userObj.showLibraryOverallStatistics(reader, writer, objectOutputStream);
                 break;
             default:
-                Server.users.get(userName);
+                Server.users.remove(userName);
                 break;
         }
     }
@@ -99,20 +99,22 @@ public class ClientHandler implements Runnable {
     }
 
     private void handleLogin(BufferedReader reader, BufferedWriter writer,
-            ObjectOutputStream objectOutputStream, UserHandler userObj) throws IOException {
+            ObjectOutputStream objectOutputStream, IoHandler userObj) throws IOException {
         AuthBSl authBSl = new AuthBSl();
         String inputLine = reader.readLine();
         String[] parts = inputLine.split(";");
         String username = parts[0];
         String password = parts[1];
-        LogInResponse response = (LogInResponse) authBSl.login(username, password);
-        objectOutputStream.writeObject(response);
+        GlobalResponse response = authBSl.login(username, password);
         if (response.getStatus() == 200) {
+            LogInResponse res = (LogInResponse) response;
             Server.users.put(username, socket);
-            id = response.getUser().getId();
+            this.id = res.getUser().getId();
             userObj.setId(id);
-            userName = username;
+            this.userName = username;
         }
+        objectOutputStream.writeObject(response);
+
         writer.flush();
     }
 
