@@ -21,10 +21,13 @@ public class GlobalResponse implements Serializable {
 
     @Override
     public String toString() {
-        return "Response{" +
-        "status='" + status + '\'' +
-        ", message=" + message +
-        '}';
+        StringBuilder responseString = new StringBuilder();
+        responseString.append("Response {\n");
+        responseString.append("  Status: '").append(status).append("',\n");
+        responseString.append("  Message: ").append(message).append("\n");
+        responseString.append("}");
+        return responseString.toString();
     }
+    
 
 }

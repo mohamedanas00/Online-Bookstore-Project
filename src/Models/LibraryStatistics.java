@@ -21,10 +21,17 @@ public class LibraryStatistics implements Serializable {
 
     @Override
     public String toString() {
-        return "LibraryStatistics ["+'\n'+" borrowedBooksCount=" + borrowedBooksCount + '\n'+" availableBooksCount="
-                + availableBooksCount + '\n'+" acceptedRequestsCount=" + acceptedRequestsCount + '\n'+" rejectedRequestsCount="
-                + rejectedRequestsCount +'\n'+ " pendingRequestsCount=" + pendingRequestsCount + "]";
+        StringBuilder statisticsString = new StringBuilder();
+        statisticsString.append("LibraryStatistics {\n");
+        statisticsString.append("  Borrowed Books Count: ").append(borrowedBooksCount).append("\n");
+        statisticsString.append("  Available Books Count: ").append(availableBooksCount).append("\n");
+        statisticsString.append("  Accepted Requests Count: ").append(acceptedRequestsCount).append("\n");
+        statisticsString.append("  Rejected Requests Count: ").append(rejectedRequestsCount).append("\n");
+        statisticsString.append("  Pending Requests Count: ").append(pendingRequestsCount).append("\n");
+        statisticsString.append("}");
+        return statisticsString.toString();
     }
+    
 
     
     

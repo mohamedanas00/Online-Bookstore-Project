@@ -13,17 +13,18 @@ public class RequestResponse extends GlobalResponse{
     @Override
     public String toString() {
         StringBuilder responseString = new StringBuilder();
-        responseString.append("RequestsResponse{\n");
-        responseString.append("status='").append(getStatus()).append("',\n");
-        responseString.append("message='").append(getMessage()).append("',\n");
+        responseString.append("RequestsResponse {\n");
+        responseString.append("  Status: '").append(getStatus()).append("',\n");
+        responseString.append("  Message: '").append(getMessage()).append("',\n");
+        responseString.append("  Requests: [\n");
         for (Request req : requests) {
-            responseString.append(req).append(",\n");
+            responseString.append("    ").append(req).append(",\n");
         }
-        responseString.append("]\n");
+        responseString.append("  ]\n");
         responseString.append("}");
         return responseString.toString();
     }
-
+    
     public List<Request> getRequests() {
         return requests;
     }

@@ -8,7 +8,7 @@ import java.util.Scanner;
 import client.validation.InputValidation;
 
 public class UserView {
-
+    private static String  state ;
     public static void displayUserMenu(Scanner scanner, BufferedReader reader, BufferedWriter writer,
             ObjectInputStream objectInputStream) {
         try {
@@ -191,7 +191,8 @@ public class UserView {
             String chatUsername)
             throws IOException {
         // Create a thread for reading messages
-        System.out.println("Start Chatting :)");
+        state ="run";
+        System.out.println("\nStart Chatting with "+ chatUsername +" :)");
         Thread readerThread = new Thread(() -> {
             try {
                 String receivedMessage;
@@ -200,7 +201,8 @@ public class UserView {
                         System.out.println(chatUsername + " is Offline ; Type 'end to close session.");
                         break;
                     }
-                    if (receivedMessage.equals("end")) {
+                    if (receivedMessage.equals("end") || state.equals("stop")) {
+                        state="stop";
                         System.out.println("Chat session ended.");
                         break;
                     }
@@ -221,7 +223,8 @@ public class UserView {
                     writer.write(message);
                     writer.newLine();
                     writer.flush();
-                    if (message.equals("end")) {
+                    if (message.equals("end")|| state.equals("stop")) {
+                        state="stop";
                         System.out.println("Chat session ended ,type 'end' .");
                         break;
                     }

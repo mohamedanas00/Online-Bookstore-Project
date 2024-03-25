@@ -10,12 +10,15 @@ public class libraryResponse extends GlobalResponse{
 
     @Override
     public String toString() {
-        return "Response{" +
-        "status='" + getStatus() + '\'' +
-        ", message=" + getMessage() +'\''
-        + library+ "}"
-        ;
+        StringBuilder responseString = new StringBuilder();
+        responseString.append("Response {\n");
+        responseString.append("  Status: '").append(getStatus()).append("',\n");
+        responseString.append("  Message: ").append(getMessage()).append(",\n");
+        responseString.append("  Library: ").append(library).append("\n");
+        responseString.append("}");
+        return responseString.toString();
     }
+    
 
     
 

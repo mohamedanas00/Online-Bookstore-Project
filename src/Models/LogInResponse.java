@@ -11,16 +11,19 @@ public class LogInResponse extends GlobalResponse{
     
     @Override
     public String toString() {
-        return "Response{" +
-        "status='" + getStatus() + '\'' +
-        ", message=" + getMessage() + '\n'+
-        ", user[" + '\'' +
-        "id:"+user.getId()+ '\'' +
-        ", username:"+ user.getUsername()+ '\'' +
-        ", role:"+user.getRole()+ '\'' +
-        "]"+
-        '}';
+        StringBuilder responseString = new StringBuilder();
+        responseString.append("Response {\n");
+        responseString.append("  Status: '").append(getStatus()).append("',\n");
+        responseString.append("  Message: ").append(getMessage()).append(",\n");
+        responseString.append("  User: {\n");
+        responseString.append("    ID: ").append(user.getId()).append(",\n");
+        responseString.append("    Username: '").append(user.getUsername()).append("',\n");
+        responseString.append("    Role: '").append(user.getRole()).append("'\n");
+        responseString.append("  }\n");
+        responseString.append("}");
+        return responseString.toString();
     }
+    
 
     public User getUser() {
         return user;
