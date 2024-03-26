@@ -5,8 +5,7 @@ import java.io.BufferedWriter;
 import java.io.ObjectInputStream;
 import java.util.Scanner;
 
-
-public class AminView {
+public class AdminView {
     public static void displayAdminMenu(Scanner scanner, BufferedReader reader, BufferedWriter writer,
             ObjectInputStream objectInputStream) {
         try {
@@ -18,7 +17,7 @@ public class AminView {
                 System.out.println("Enter any key to Logout.");
                 System.out.print("\nEnter your choice: ");
                 String choice = scanner.nextLine();
-    
+
                 switch (choice) {
                     case "1":
                         writer.write("admin");
@@ -29,7 +28,10 @@ public class AminView {
                         System.out.println(receivedObject);
                         break;
                     default:
-                        flag=false;
+                        writer.write("Logout");
+                        writer.newLine();
+                        writer.flush();
+                        flag = false;
                         break;
                 }
             }
