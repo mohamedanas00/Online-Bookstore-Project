@@ -63,6 +63,14 @@ public class IoHandler {
         writer.flush();
     }
 
+    public void handleBrowseBook(BufferedReader reader, BufferedWriter writer, ObjectOutputStream objectOutputStream) throws IOException {
+        System.out.println("1111111111");
+        BookBSl bookBSl = new BookBSl();
+        GlobalResponse response = bookBSl.browseBooks();
+        System.out.println(response);
+        objectOutputStream.writeObject(response);
+        writer.flush();
+    }
     public void handleSearch(BufferedReader reader, BufferedWriter writer,
             ObjectOutputStream objectOutputStream) throws IOException {
         BookBSl bookBSl = new BookBSl();

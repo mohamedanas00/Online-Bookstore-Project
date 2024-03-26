@@ -52,6 +52,10 @@ public class ClientHandler implements Runnable {
             case "Remove Book":
                 userObj.handleRemoveBook(reader, writer, objectOutputStream);
                 break;
+            case "browse books":
+                System.out.println("sssssss");
+                userObj.handleBrowseBook(reader, writer, objectOutputStream);
+                break;
             case "search":
                 userObj.handleSearch(reader, writer, objectOutputStream);
                 break;

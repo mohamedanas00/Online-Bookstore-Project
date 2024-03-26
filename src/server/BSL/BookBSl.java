@@ -62,7 +62,33 @@ public class BookBSl {
             return new GlobalResponse(500, e.toString());
         }
     }
+    public GlobalResponse browseBooks(){
+        List<Book> books = new ArrayList<>();
+        UserBSL userBsl = new UserBSL();
+        try {
+            System.out.println("yyyyyyyyy");
 
+            connection = DatabaseManager.getConnection();
+            GlobalResponse response;
+            String query ="SELECT * FROM Book";
+            statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(query);
+            while (resultSet.next()) {
+                System.out.println("sssssssssssssssssss");
+                Book book = new Book(resultSet);
+                User user = userBsl.getUserDetails(book.getUserId());
+                System.out.println(user);
+                book.setUser(user);
+                books.add(book);
+            }
+            response = new BookResponse(200, "Success", books);
+            statement.close();
+            resultSet.close();
+            return response;
+        } catch (Exception e) {
+            return new GlobalResponse(500, e.toString());
+        }
+    }
     public GlobalResponse searchBooks(int userId, String searchQuery) {
         List<Book> books = new ArrayList<>();
         try {

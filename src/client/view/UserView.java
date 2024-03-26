@@ -8,26 +8,28 @@ import java.util.Scanner;
 import client.validation.InputValidation;
 
 public class UserView {
-    private static String  state ;
+    private static String state;
+
     public static void displayUserMenu(Scanner scanner, BufferedReader reader, BufferedWriter writer,
             ObjectInputStream objectInputStream) {
         try {
             boolean flag = true;
-            String id;
+            int id;
             Object receivedObject;
             while (flag) {
                 System.out.println("\nWelcome to the User Interface!");
                 System.out.println("1. Add Book.");
                 System.out.println("2. Remove Book.");
-                System.out.println("3. Search for Books by Title, Author, or Genre.");
-                System.out.println("4.Recommendation Books Based on  personal genre preferences.");
-                System.out.println("5.Recommendation Books Based on current reviews calculation.");
-                System.out.println("6. Add a Review Book.");
-                System.out.println("7. Request For Borrow Book.");
-                System.out.println("8. Show My Request History as lender.");
-                System.out.println("9. Show MY Request History as borrower.");
-                System.out.println("10. Manage Incoming Request.");
-                System.out.println("11. Chatting.");
+                System.out.println("3. Browse Books.");
+                System.out.println("4. Search for Books by Title, Author, or Genre.");
+                System.out.println("5. Recommendation Books Based on  personal genre preferences.");
+                System.out.println("6. Recommendation Books Based on current reviews calculation.");
+                System.out.println("7. Add a Review Book.");
+                System.out.println("8. Request For Borrow Book.");
+                System.out.println("9. Show My Request History as lender.");
+                System.out.println("10. Show MY Request History as borrower.");
+                System.out.println("11. Manage Incoming Request.");
+                System.out.println("12. Chatting.");
                 System.out.println("Enter any key to Logout.");
                 System.out.print("\nEnter your choice: ");
                 String choice = scanner.nextLine();
@@ -55,16 +57,25 @@ public class UserView {
                         writer.write("Remove Book");
                         writer.newLine();
 
-                        id = InputValidation.getInput(scanner, "Enter Book ID: ");
-                        writer.write(id);
+                        id = InputValidation.getIntInput(scanner, "Enter Book ID: ");
+                        String idStr = String.valueOf(id);
+                        writer.write(idStr);
                         writer.newLine();
                         writer.flush();
 
                         receivedObject = objectInputStream.readObject();
                         System.out.println(receivedObject);
                         break;
-
                     case "3":
+                        writer.write("browse books");
+                        writer.newLine();
+                        writer.flush();
+
+
+                        receivedObject = objectInputStream.readObject();
+                        System.out.println(receivedObject);
+                        break;
+                    case "4":
                         writer.write("search");
                         writer.newLine();
 
@@ -76,7 +87,7 @@ public class UserView {
                         receivedObject = objectInputStream.readObject();
                         System.out.println(receivedObject);
                         break;
-                    case "4":
+                    case "5":
                         writer.write("show books");
                         writer.newLine();
 
@@ -86,7 +97,7 @@ public class UserView {
                         receivedObject = objectInputStream.readObject();
                         System.out.println(receivedObject);
                         break;
-                    case "5":
+                    case "6":
                         writer.write("show books");
                         writer.newLine();
 
@@ -96,7 +107,7 @@ public class UserView {
                         receivedObject = objectInputStream.readObject();
                         System.out.println(receivedObject);
                         break;
-                    case "6":
+                    case "7":
                         writer.write("review");
                         writer.newLine();
                         int bookId = InputValidation.getIntInput(scanner, "Enter Book ID: ");
@@ -112,20 +123,21 @@ public class UserView {
                         System.out.println(receivedObject);
                         break;
 
-                    case "7":
+                    case "8":
                         writer.write("borrow");
                         writer.newLine();
                         writer.flush();
 
-                        id = InputValidation.getInput(scanner, "Enter Book ID: ");
-                        writer.write(id);
+                        id = InputValidation.getIntInput(scanner, "Enter Book ID: ");
+                        String idStr1 = String.valueOf(id);
+                        writer.write(idStr1);
                         writer.newLine();
                         writer.flush();
 
                         receivedObject = objectInputStream.readObject();
                         System.out.println(receivedObject);
                         break;
-                    case "8":
+                    case "9":
                         writer.write("L_history");
                         writer.newLine();
                         writer.flush();
@@ -134,7 +146,7 @@ public class UserView {
                         System.out.println(receivedObject);
 
                         break;
-                    case "9":
+                    case "10":
                         writer.write("B_history");
                         writer.newLine();
                         writer.flush();
@@ -142,7 +154,7 @@ public class UserView {
                         receivedObject = objectInputStream.readObject();
                         System.out.println(receivedObject);
                         break;
-                    case "10":
+                    case "11":
                         writer.write("Manage Req");
                         writer.newLine();
 
@@ -160,7 +172,7 @@ public class UserView {
                         }
                         System.out.println(receivedObject);
                         break;
-                    case "11":
+                    case "12":
                         System.out.println("Enter username you want to chat with:");
                         String chatUsername = scanner.nextLine();
                         writer.write("chat");
@@ -191,8 +203,8 @@ public class UserView {
             String chatUsername)
             throws IOException {
         // Create a thread for reading messages
-        state ="run";
-        System.out.println("\nStart Chatting with "+ chatUsername +" :)");
+        state = "run";
+        System.out.println("\nStart Chatting with " + chatUsername + " :)");
         Thread readerThread = new Thread(() -> {
             try {
                 String receivedMessage;
@@ -202,7 +214,7 @@ public class UserView {
                         break;
                     }
                     if (receivedMessage.equals("end") || state.equals("stop")) {
-                        state="stop";
+                        state = "stop";
                         System.out.println("Chat session ended.");
                         break;
                     }
@@ -223,8 +235,8 @@ public class UserView {
                     writer.write(message);
                     writer.newLine();
                     writer.flush();
-                    if (message.equals("end")|| state.equals("stop")) {
-                        state="stop";
+                    if (message.equals("end") || state.equals("stop")) {
+                        state = "stop";
                         System.out.println("Chat session ended ,type 'end' .");
                         break;
                     }
