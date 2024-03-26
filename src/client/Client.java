@@ -11,7 +11,7 @@ import java.util.Scanner;
 import Models.GlobalResponse;
 import Models.LogInResponse;
 import client.validation.InputValidation;
-import client.view.AminView;
+import client.view.AdminView;
 import client.view.UserView;
 
 public class Client {
@@ -71,7 +71,7 @@ public class Client {
                             if (role.equals("user")) {
                                 UserView.displayUserMenu(scanner,reader ,writer, objectInputStream);
                             }else{
-                                AminView.displayAdminMenu(scanner, reader, writer, objectInputStream);
+                                AdminView.displayAdminMenu(scanner, reader, writer, objectInputStream);
                             }
 
                         }
