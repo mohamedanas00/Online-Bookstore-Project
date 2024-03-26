@@ -18,8 +18,8 @@ public class Server {
         int port =6666;
         try(ServerSocket serverSocket = new ServerSocket(port)){
             System.out.println("Server is Running in port :"+port);
+            DatabaseManager.connect();
             while(true){
-                DatabaseManager.connect();
                 Socket socket = serverSocket.accept();
                 ClientHandler client = new ClientHandler(socket);
                 clients.add(client);
