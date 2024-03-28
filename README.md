@@ -31,16 +31,21 @@
 - Genre-based Book Recommendations: Users can now view a list of books from each genre, sorted by their current reviews' calculation. This feature provides users with recommendations based on the accumulated ratings of books in each genre. Other recommendations may also be based on the user's personal genre preferences or the preferences of those whom they mostly borrow from.
 
 ## Setup
+
 - Java SE Development Kit (JDK).
 - MySQL Connector/J library.
-- not need to download MySQL Server (project using Cloud DB MySql)
+  [MySQL Connector Java 8.0.30](https://mvnrepository.com/artifact/mysql/mysql-connector-java/8.0.30)
+- not need to download MySQL Server (project using Cloud DB).
+  [console.clever-cloud](https://console.clever-cloud.com/)
 
 ## Installation
-1) Clone the repository:
+
+1. Clone the repository:
+
 ```bash
 git clone https://github.com/mohamedanas00/Online-Bookstore-Project.git
 ```
-2) Open the project in your preferred Java IDE.
-3) Compile and run the server application (`Server.java`).
-4) Compile and run the client application (`MainClient.java`). 
 
+2. Open the project in your preferred Java IDE.
+3. Compile and run the server application (`Server.java`).
+4. Compile and run the client application (`MainClient.java`).
