@@ -133,7 +133,7 @@ public class BookBSl {
             if (!Authorization.checkAuthorization(userId, "user", connection)) {
                 return new GlobalResponse(401, "Unauthorized");
             }
-            if (choice.equals("1")) {
+            if (choice.equals("2")) {
                 resultSet = getBasedOnReviews();
             } else {
                 resultSet = getBasedOnUserPreferences(userId);
@@ -219,8 +219,7 @@ public class BookBSl {
             String recommendationQuery = "SELECT * FROM Book " +
                     "WHERE genre = '" + genre + "' " +
                     "AND user_id != " + userId + " " +
-                    "ORDER BY ratingAvg DESC " +
-                    "LIMIT 5"; // Limiting to top 5 recommendations per genre
+                    "ORDER BY ratingAvg DESC " ;
             resultSet = statement.executeQuery(recommendationQuery);
         }
         return resultSet;
