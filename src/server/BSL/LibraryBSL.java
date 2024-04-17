@@ -23,7 +23,6 @@ public class LibraryBSL {
             library = new LibraryStatistics(countBorrowedBooks(), countAvailableBooks(),
                     countRequestsByStatus("Accepted"), countRequestsByStatus("Rejected"),
                     countRequestsByStatus("Pending"));
-            connection.close();
             return new libraryResponse(200, "success", library);
         } catch (SQLException e) {
             return new GlobalResponse(404, e.toString());
